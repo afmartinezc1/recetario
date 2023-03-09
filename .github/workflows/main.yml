@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Definir-rama-destino
+      id: ramaDestino
       env:
         RAMA_DESTINO: master
       run: echo "::set-output name=respuesta::${RAMA_DESTINO}" 
@@ -18,7 +19,7 @@ jobs:
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source-branch: ${{ steps.Definir-rama-destino.output.respuesta }}
+        source-branch: ${{ steps.ramaDestino.output.respuesta }}
         target-branch: ${{ github.ref }}
   job2: 
     needs: job1
