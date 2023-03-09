@@ -1,4 +1,4 @@
-name: Pruebas unitarias
+name: Integrar con develop
 on:
   push:
     branches: 
@@ -6,11 +6,11 @@ on:
 jobs:
   job1:
     permissions: write-all
-    name: Pruebas
+    name: Integrar develop a Feature
     if: ${{ contains(github.event.head_commit.message, 'MERGE_MAIN') }}
     runs-on: ubuntu-latest
     steps:
-    - name: hace merge de main a la feature
+    - name: hace merge de develop a la feature
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
