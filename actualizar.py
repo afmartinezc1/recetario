@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
   cancion.minutos = 50
   cancion.segundos = 30
-  cancion.compositor = "Pedro Pérez G"
+  cancion.compositor = "Pedro Pérez"
   cancion.interpretes.append(interprete)
   session.add(cancion)
   session.commit()
