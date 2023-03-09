@@ -12,10 +12,10 @@ jobs:
     steps:
     - name: hace merge de main a la feature
       uses: tukasz/direct-merge-action@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          source-branch: main
-          target-branch: ${{ github.ref }}
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        source-branch: main
+        target-branch: ${{ github.ref }}
     - name: Checkout de repositorio
       uses: actions/checkout@v2
     - name: Configuración de entorno de python
