@@ -3,6 +3,8 @@ on:
   push:
     branches: 
     - 'Feature*'
+env:
+  RAMA_DESTINO: master
 jobs:
   job1:
     permissions: write-all
@@ -10,16 +12,11 @@ jobs:
     if: ${{ contains(github.event.head_commit.message, 'MERGE_MAIN') }}
     runs-on: ubuntu-latest
     steps:
-    - name: Definir-rama-destino
-      id: ramaDestino
-      env:
-        RAMA_DESTINO: master
-      run: echo "::set-output name=respuesta::${RAMA_DESTINO}" 
     - name: hace merge de develop a la feature
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source-branch: ${{ steps.ramaDestino.output.respuesta }}
+        source-branch: ${{ env.RAMA_DESTINO }}
         target-branch: ${{ github.ref }}
   job2: 
     needs: job1
