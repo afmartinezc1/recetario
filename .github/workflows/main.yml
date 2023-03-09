@@ -19,6 +19,7 @@ jobs:
   job2: 
     needs: Integrar-Develop-Feature
     name: Pruebas-unitarias
+    runs-on: ubuntu-latest
     - name: Checkout de repositorio
       uses: actions/checkout@v2
     - name: Configuración de entorno de python
