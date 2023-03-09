@@ -13,12 +13,12 @@ jobs:
     - name: Definir-rama-destino
       env:
         RAMA_DESTINO: master
-      run: echo "::set-output name=respuesta::${RAMA_DESTINO}"
+      run: echo "::set-output name=respuesta::${RAMA_DESTINO}" 
     - name: hace merge de develop a la feature
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source-branch: ${{ RAMA_DESTINO }}
+        source-branch: ${{ steps.respuesta.RAMA_DESTINO }}
         target-branch: ${{ github.ref }}
   job2: 
     needs: job1
