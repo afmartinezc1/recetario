@@ -16,22 +16,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source-branch: master
         target-branch: ${{ github.ref }}
-  job2:
-    permissions: write-all
-    name: Integrar-Develop-Feature
-    if: ${{ contains(github.event.head_commit.message, 'MERGE_MAIN') }}
-    runs-on: ubuntu-latest
-    steps:
-    - name: hace merge de develop a la feature
-      uses: tukasz/direct-merge-action@master
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source-branch: master
-        target-branch: ${{ github.ref }}
-  job3: 
+  job2: 
     needs: Integrar-Develop-Feature
     name: Pruebas-unitarias
     runs-on: ubuntu-latest
+    steps:
     - name: Checkout de repositorio
       uses: actions/checkout@v2
     - name: Configuración de entorno de python
