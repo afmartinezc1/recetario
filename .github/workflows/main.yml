@@ -17,7 +17,7 @@ jobs:
         source-branch: master
         target-branch: ${{ github.ref }}
   job2: 
-    needs: Integrar-Develop-Feature
+    needs: job1
     name: Pruebas-unitarias
     runs-on: ubuntu-latest
     steps:
@@ -44,9 +44,8 @@ jobs:
       env:
         MENSAJE_SUCCESS: Pruebas exitosas
       run: echo "::set-output name=respuesta::${MENSAJE_SUCCESS}"
-      
   job3: 
-    needs: Pruebas-unitarias
+    needs: job2
     name: Integrar-Feature-Develop
     runs-on: ubuntu-latest
     steps:
