@@ -1,12 +1,21 @@
 name: Pruebas unitarias
 on:
   push:
-    branches: [ master ]
+    branches: 
+    - 'Feature*'
 jobs:
   job1:
+    permissions: write-all
     name: Pruebas
+    if: ${{ contains(github.event.head_commit.message, 'MERGE_MAIN') }}
     runs-on: ubuntu-latest
     steps:
+    - name: hace merge de main a la feature
+      uses: tukasz/direct-merge-action@master
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        source-branch: master
+        target-branch: ${{ github.ref }}
     - name: Checkout de repositorio
       uses: actions/checkout@v2
     - name: Configuración de entorno de python
@@ -25,9 +34,11 @@ jobs:
       env:
         MENSAJE_ERROR: Una o varias pruebas fallaron
       run: echo "::set-output name=respuesta::${MENSAJE_ERROR}"
-    - name: Validar resultado sin errores
+    - name: Si pasa las pruebas hace merge
       if: ${{ success() }}
-      env:
-        MENSAJE_EXITO: Todas las pruebas fueron exitosas
-      run: echo "::set-output name=respuesta::${MENSAJE_EXITO}"
+      uses: tukasz/direct-merge-action@master
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        source-branch: ${{ github.ref }}
+        target-branch: master
     
