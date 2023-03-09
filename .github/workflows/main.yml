@@ -44,11 +44,14 @@ jobs:
       env:
         MENSAJE_SUCCESS: Pruebas exitosas
       run: echo "::set-output name=respuesta::${MENSAJE_SUCCESS}"
-      uses: tukasz/direct-merge-action@master
+      
   job3: 
     needs: Pruebas-unitarias
     name: Integrar-Feature-Develop
     runs-on: ubuntu-latest
+    steps:
+    - name: 'Integrando feature a develop'
+      uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source-branch: ${{ github.ref }}
