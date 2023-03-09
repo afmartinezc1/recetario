@@ -18,7 +18,7 @@ jobs:
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source-branch: ${{ steps.respuesta.RAMA_DESTINO }}
+        source-branch: ${{ steps.Definir-rama-destino.output.respuesta }}
         target-branch: ${{ github.ref }}
   job2: 
     needs: job1
