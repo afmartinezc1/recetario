@@ -15,11 +15,12 @@ jobs:
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
     - name: hace merge de main a la feature
-      uses: tukasz/direct-merge-action@master
+      uses: devmasx/merge-branch@master
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source-branch: main
-        target-branch: ${{ steps.extract_branch.outputs.branch }}
+        type: now
+        from_branch: main
+        target_branch: ${{ steps.extract_branch.outputs.branch }}
+        github_token: ${{ github.token }}
     - name: Checkout de repositorio
       uses: actions/checkout@v2
     - name: Configuración de entorno de python
@@ -40,9 +41,7 @@ jobs:
       run: echo "::set-output name=respuesta::${MENSAJE_ERROR}"
     - name: Si pasa las pruebas hace merge
       if: ${{ success() }}
-      uses: tukasz/direct-merge-action@master
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source-branch: ${{ steps.extract_branch.outputs.branch }}
-        target-branch: main
+      env:
+        MENSAJE_EXITO: Todas las pruebas fueron exitosas
+      run: echo "::set-output name=respuesta::${MENSAJE_EXITO}"
     
