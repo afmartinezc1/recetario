@@ -5,10 +5,17 @@ on:
     - 'Feature*'
 jobs:
   job1:
+    permissions: write-all
     name: Pruebas
     if: ${{ contains(github.event.head_commit.message, 'MERGE_MAIN') }}
     runs-on: ubuntu-latest
     steps:
+    - name: hace merge de main a la feature
+      uses: tukasz/direct-merge-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          source-branch: main
+          target-branch: ${{ github.ref }}
     - name: Checkout de repositorio
       uses: actions/checkout@v2
     - name: Configuración de entorno de python
