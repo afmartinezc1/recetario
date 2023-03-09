@@ -10,12 +10,16 @@ jobs:
     if: ${{ contains(github.event.head_commit.message, 'MERGE_MAIN') }}
     runs-on: ubuntu-latest
     steps:
+    - name: Extrae el nombre de la rama
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
     - name: hace merge de main a la feature
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source-branch: main
-        target-branch: ${{ github.ref }}
+        target-branch: ${{ steps.extract_branch.outputs.branch }}
     - name: Checkout de repositorio
       uses: actions/checkout@v2
     - name: Configuración de entorno de python
@@ -39,6 +43,6 @@ jobs:
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source-branch: ${{ github.ref }}
+        source-branch: ${{ steps.extract_branch.outputs.branch }}
         target-branch: main
     
