@@ -57,5 +57,5 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source-branch: ${{ github.ref }}
-        target-branch: master
+        target-branch: ${{ env.RAMA_DESTINO }}
     
