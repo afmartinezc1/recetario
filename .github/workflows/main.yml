@@ -6,7 +6,7 @@ on:
 jobs:
   job1:
     permissions: write-all
-    name: Integrar develop a Feature
+    name: Integrar-Develop-Feature
     if: ${{ contains(github.event.head_commit.message, 'MERGE_MAIN') }}
     runs-on: ubuntu-latest
     steps:
@@ -16,6 +16,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source-branch: master
         target-branch: ${{ github.ref }}
+  job2: 
+    needs: Integrar-Develop-Feature
+    name: Pruebas-unitarias
     - name: Checkout de repositorio
       uses: actions/checkout@v2
     - name: Configuración de entorno de python
@@ -36,6 +39,9 @@ jobs:
       run: echo "::set-output name=respuesta::${MENSAJE_ERROR}"
     - name: Si pasa las pruebas hace merge
       if: ${{ success() }}
+      env:
+        MENSAJE_SUCCESS: Pruebas exitosas
+      run: echo "::set-output name=respuesta::${MENSAJE_SUCCESS}"
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
